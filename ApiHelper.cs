@@ -174,9 +174,9 @@ namespace FinalResearchAssistant
                     if (link.Contains("url:"))
                     {
                         titleAndLink_JSON[i, 0] = root.data[i].title;
-                        
+
                         // Remove unwanted characters from the link and add it to the multi dimensional array 
-                        link.Replace("url:", "");
+                        link = link.Remove(0, 4);
                         titleAndLink_JSON[i, 1] = link;
                     }
                 }
