@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Threading;
 
 namespace FinalResearchAssistant
 {
@@ -75,23 +77,37 @@ namespace FinalResearchAssistant
         public Form1()
         {
             InitializeComponent();
+
+            // Create the merged file 
         }
 
         ApiHelper arxiv = new ApiHelper();
         ApiHelper core = new ApiHelper();
 
-        private void bunifuFlatButton1_Click(object sender, EventArgs e)
+        private void bunifuFlatButton1_Click_1(object sender, EventArgs e)
         {
             string searchQuery = bunifuMaterialTextbox1.Text;
             arxiv.url = "http://export.arxiv.org/api/query?search_query=" + searchQuery + "&max_results=10";
             arxiv.GetRequest();
-            
-           core.url = "https://core.ac.uk:443/api-v2/journals/search/" + searchQuery + "? page=1&pageSize=10&apiKey=rnBoaFLv8jiJd6N3XzECwule9SR7MPmH";
-           core.GetRequest();
 
-            richTextBox1.AppendText("Sent and Recieved!\n");
+            core.url = "https://core.ac.uk:443/api-v2/journals/search/" + searchQuery + "? page=1&pageSize=10&apiKey=rnBoaFLv8jiJd6N3XzECwule9SR7MPmH";
+            core.GetRequest();
 
-            
+            timer.Start();
+
+            // Using the new text file, have a multi-dimensional list here that can put stuff in a new form (also new text file for history)
+
+        }
+
+        // Wait for the files to exist
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            if (File.Exists("Research_Results_XML.txt") || File.Exists("Research_Results_JSON.txt"))
+            {
+                LocalGatherer.mergeFiles();
+                timer.Stop();   // Stop checking for the files to run the code once
+            }
         }
     }
 }
+
