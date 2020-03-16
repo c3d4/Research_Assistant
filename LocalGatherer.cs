@@ -38,19 +38,20 @@ namespace FinalResearchAssistant
 
             #region Create Merged and History Folders
 
-            //string fileName = "Research_Results_Merged";
-
             try
             {
                 File.WriteAllText("Research_Results_Merged.txt", "");
-                
-                foreach (var entity in finalResults)
+                int count = finalResults.Count;
+
+                for (int i=0; i<count; i++)
                 {
-                    File.AppendAllText("Research_Results_Merged" + ".txt", entity + Environment.NewLine);
-                    if (File.ReadAllText("Research_Results_History.txt").Contains(entity) == false)
+                    File.AppendAllText("Research_Results_Merged" + ".txt", finalResults.Peek() + Environment.NewLine);
+                    if (File.ReadAllText("Research_Results_History.txt").Contains(finalResults.Peek()) == false)
                     {
-                        File.AppendAllText("Research_Results_History.txt", entity + Environment.NewLine);
-                    }   
+                        File.AppendAllText("Research_Results_History.txt", finalResults.Peek() + Environment.NewLine);
+                    }
+
+                    finalResults.Dequeue();
                 }
             }
             catch (Exception ex)
