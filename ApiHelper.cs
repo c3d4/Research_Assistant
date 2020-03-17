@@ -19,7 +19,7 @@ namespace FinalResearchAssistant
         public string result;                   // Raw result from web service
         public string[,] titleAndLink_XML;          // Dirty (Multidimensional array) for XML
         public string[,] titleAndLink_JSON;          // Dirty (Multidimensional array) for JSON 
-        
+
         #region Requests
 
         // GET Request to server, returns content of server
@@ -82,7 +82,7 @@ namespace FinalResearchAssistant
         #endregion
 
         #region File Parsers/Readers
-        
+
         // Parse XML elements from the result of the web service
         public void readXML(string xml)
         {
@@ -117,7 +117,7 @@ namespace FinalResearchAssistant
 
             // Get a list of all of the journal titles in the XML
             XmlNodeList titleList = doc.GetElementsByTagName("title");
-            
+
             // Fix the size of the multi-dimensional array dynamically, according to the size of titleList
             titleAndLink_XML = new string[titleList.Count, 2];
 
@@ -128,7 +128,7 @@ namespace FinalResearchAssistant
                 {
                     // Use regex to remove any unwanted characters in the title
                     string fixedTitle = Regex.Replace(titleList[i].InnerXml, @"\t|\n|\r", "");
-                    
+
                     // Assign the title to a position in the multi dimensional array
                     titleAndLink_XML[i, 0] = fixedTitle;
                 }
@@ -169,7 +169,7 @@ namespace FinalResearchAssistant
                 for (int i = 0; i < root.data.Length; i++)
                 {
                     string link = root.data[i].identifiers[2]; // 2 is a constant from the results of the web service
-                   
+
                     // Make sure that the data being parsed is the URL 
                     if (link.Contains("url:"))
                     {
@@ -197,7 +197,7 @@ namespace FinalResearchAssistant
         /// Some of this data wont be returned to the main form, however must be set up correctly as such
         /// to mimick the architecture of the JSON and the output of the web service. This is needed for 
         /// the parser to function correctly. 
-        
+
         // Set object properties for the JSON from the web service
         public class Rootobject
         {
@@ -240,7 +240,7 @@ namespace FinalResearchAssistant
         // Function to clear the client-side for future use 
         public void clearSearch()
         {
-            result = "";      
+            result = "";
         }
 
         #endregion
