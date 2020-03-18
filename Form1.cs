@@ -13,6 +13,8 @@ namespace FinalResearchAssistant
         private int colorOffset = 30;   // The change in color from hovering over a GUI object
 
         ResultsForm resultsForm =  new ResultsForm();
+        HistoryForm historyForm = new HistoryForm();
+        LocalResults localResults = new LocalResults();
 
         #region GUI
         // Change the color of the close button
@@ -116,6 +118,26 @@ namespace FinalResearchAssistant
             if (File.Exists("Research_Results_Merged.txt"))
             {
                 timer1.Stop();   // Stop checking for the files to run the code once
+            }
+        }
+
+        // Open the history form 
+        private void bunifuFlatButton4_Click(object sender, EventArgs e)
+        {
+            if (File.Exists("Research_Results_History.txt"))
+            {
+                historyForm.ShowDialog();
+            }
+        }
+
+        // Search locally 
+        private void bunifuFlatButton3_Click(object sender, EventArgs e)
+        {
+            if (bunifuMaterialTextbox1.Text != "")
+            {
+                localResults.getQuery(bunifuMaterialTextbox1.Text);
+
+                localResults.ShowDialog();
             }
         }
     }
