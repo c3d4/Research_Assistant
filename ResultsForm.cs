@@ -138,7 +138,7 @@ namespace FinalResearchAssistant
             // Clear the links
             totalLinks.Clear();
 
-            // Delete the file to reset in the future
+            // Delete files to reset in the future
             File.Delete("Research_Results_Merged.txt");
 
             // Close the form
