@@ -17,31 +17,37 @@ namespace FinalResearchAssistant
 
             #region Enqueue the data in a queue data structure
 
-            // Create an array of all of the lines in XML File
-            string[] lines = File.ReadAllLines("Research_Results_XML.txt");
-
-            // Go through each line in the XML file 
-            foreach (var line in lines)
+            if (File.Exists("Research_Results_XML.txt"))
             {
-                // Make sure that the line has content
-                if (line != "")
+                // Create an array of all of the lines in XML File
+                string[] lines = File.ReadAllLines("Research_Results_XML.txt");
+
+                // Go through each line in the XML file 
+                foreach (var line in lines)
                 {
-                    // Add the line to the queue
-                    finalResults.Enqueue(line);
+                    // Make sure that the line has content
+                    if (line != "")
+                    {
+                        // Add the line to the queue
+                        finalResults.Enqueue(line);
+                    }
                 }
             }
-
-            // Create an array of all of the lines in JSON File
-            lines = File.ReadAllLines("Research_Results_JSON.txt");
-
-            // Go through each line in the JSON file 
-            foreach (var line in lines)
+            
+            if (File.Exists("Research_Results_JSON.txt"))
             {
-                // Make sure that the line has content
-                if (line != "")
+                // Create an array of all of the lines in JSON File
+                string [] lines = File.ReadAllLines("Research_Results_JSON.txt");
+
+                // Go through each line in the JSON file 
+                foreach (var line in lines)
                 {
-                    // Add the line to the queue
-                    finalResults.Enqueue(line);
+                    // Make sure that the line has content
+                    if (line != "")
+                    {
+                        // Add the line to the queue
+                        finalResults.Enqueue(line);
+                    }
                 }
             }
 
