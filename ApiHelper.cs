@@ -14,6 +14,7 @@ namespace FinalResearchAssistant
     {
         // Properties of the API 
         public string url;
+        string user; 
 
         // Result returned from the web service
         public string result;                   // Raw result from web service
@@ -87,7 +88,7 @@ namespace FinalResearchAssistant
         public void readXML(string xml)
         {
             // Create an XML File using the results of the web service
-            string _fileName = "Research_Assistant_Result.xml";
+            string _fileName = @"" + user + @"\Research_Assistant_Result.xml";
 
             try
             {
@@ -113,7 +114,7 @@ namespace FinalResearchAssistant
 
             // Load the XML Document for parsing
             XmlDocument doc = new XmlDocument();
-            doc.Load("Research_Assistant_Result.xml");
+            doc.Load(@"" + user + @"\Research_Assistant_Result.xml");
 
             // Get a list of all of the journal titles in the XML
             XmlNodeList titleList = doc.GetElementsByTagName("title");
@@ -148,7 +149,7 @@ namespace FinalResearchAssistant
             }
 
             // Write the elements of the multi dimensional array in a text file
-            writeToFile("Research_Results_XML", titleAndLink_XML);
+            writeToFile(@"" + user + @"\Research_Results_XML", titleAndLink_XML);
 
             // Clear overriding info for next use
             clearSearch();
@@ -182,7 +183,7 @@ namespace FinalResearchAssistant
                 }
 
                 // Write the elements of the multi dimensional array in a text file
-                writeToFile("Research_Results_JSON", titleAndLink_JSON);
+                writeToFile(@"" + user + @"\Research_Results_JSON", titleAndLink_JSON);
 
                 // Clear overriding info for next use
                 clearSearch();
@@ -245,5 +246,9 @@ namespace FinalResearchAssistant
 
         #endregion
 
+        public void getUser(string username)
+        {
+            user = username;
+        }
     }
 }
