@@ -6,6 +6,10 @@ namespace FinalResearchAssistant
 {
     class LocalGatherer
     {
+        // Username and history
+        static string user;
+        static bool enableHistory;
+
         // Merge the XML and JSON result files
         public static void mergeFiles()
         {
@@ -13,14 +17,14 @@ namespace FinalResearchAssistant
             Queue<string> finalResults = new Queue<string>();
 
             // Reset the Research_Results_History file 
-            File.AppendAllText("Research_Results_History.txt", "");  
+            File.AppendAllText(@"" + user + @"\Research_Results_History.txt", "");  
 
             #region Enqueue the data in a queue data structure
 
-            if (File.Exists("Research_Results_XML.txt"))
+            if (File.Exists(@"" + user + @"\Research_Results_XML.txt"))
             {
                 // Create an array of all of the lines in XML File
-                string[] lines = File.ReadAllLines("Research_Results_XML.txt");
+                string[] lines = File.ReadAllLines(@"" + user + @"\Research_Results_XML.txt");
 
                 // Go through each line in the XML file 
                 foreach (var line in lines)
@@ -34,13 +38,13 @@ namespace FinalResearchAssistant
                 }
             }
             
-            if (File.Exists("Research_Results_JSON.txt"))
+            if (File.Exists(@"" + user + @"\Research_Results_JSON.txt"))
             {
                 // Create an array of all of the lines in JSON File
-                string [] lines = File.ReadAllLines("Research_Results_JSON.txt");
+                string [] Jlines = File.ReadAllLines(@"" + user + @"\Research_Results_JSON.txt");
 
                 // Go through each line in the JSON file 
-                foreach (var line in lines)
+                foreach (var line in Jlines)
                 {
                     // Make sure that the line has content
                     if (line != "")
@@ -59,19 +63,22 @@ namespace FinalResearchAssistant
             try
             {
                 // Reset the Merged File
-                File.WriteAllText("Research_Results_Merged.txt", "");
+                File.Create(@"" + user + @"\Research_Results_Merged.txt").Close();
                 
                 // Transfer the merged data via a dequeue
                 int count = finalResults.Count;
 
                 for (int i = 0; i < count; i++)
                 {
-                    File.AppendAllText("Research_Results_Merged" + ".txt", finalResults.Peek() + Environment.NewLine);
+                    File.AppendAllText(@"" + user + @"\Research_Results_Merged" + ".txt", finalResults.Peek() + Environment.NewLine);
 
                     // Make sure that the history doesn't contain any duplicate results
-                    if (File.ReadAllText("Research_Results_History.txt").Contains(finalResults.Peek()) == false)
+                    if (enableHistory == true)
                     {
-                        File.AppendAllText("Research_Results_History.txt", finalResults.Peek() + Environment.NewLine);
+                        if (File.ReadAllText(@"" + user + @"\Research_Results_History.txt").Contains(finalResults.Peek()) == false)
+                        {
+                            File.AppendAllText(@"" + user + @"\Research_Results_History.txt", finalResults.Peek() + Environment.NewLine);
+                        }
                     }
 
                     finalResults.Dequeue();
@@ -83,6 +90,13 @@ namespace FinalResearchAssistant
             }
 
             #endregion
+        }
+
+        // Get the username from the form 
+        public static void getUser(string username, bool history)
+        {
+            user = username;
+            enableHistory = history;
         }
     }
 }
